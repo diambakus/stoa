@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: stoa
+  cloud:
+    gateway:
+      routes:
+        - id: servitus
+          uri:
+          predicates:
+            - Path=/servitus/**
+          filters:
+            - RewritePath=/servitus/(?<segment>.*), /${segment}
+        - id: rogator
+          uri:
+          predicates:
+            - Path=/rogator/**
+          filters:
+            - RewritePath=/rogator/(?<segment>.*), /${segment}
