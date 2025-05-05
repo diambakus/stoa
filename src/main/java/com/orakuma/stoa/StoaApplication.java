@@ -1,4 +1,4 @@
-package com.orakuma.stoa.stoa;
+package com.orakuma.stoa;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

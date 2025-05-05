@@ -1,4 +1,4 @@
-package com.orakuma.stoa.stoa;
+package com.orakuma.stoa;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
