@@ -8,6 +8,6 @@
 |___| |_||_______||_|   |_||___|    |_______|
 
 ----------------------------------------------------------------------
-:: SERVITUS :: Powered by Orakuma Technologies
+:: STOA :: Powered by Orakuma Technologies
 :: Spring Boot ${spring-boot.version} | Java ${java.version} ::
 ----------------------------------------------------------------------
