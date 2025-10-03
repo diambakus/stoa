@@ -1,6 +1,3 @@
-server:
-  port: 8094
-
 spring:
   cloud:
     gateway:
@@ -37,7 +34,7 @@ logging.level:
 
 app:
   openapi:
-    gatewayUrl: "http://localhost:8094"
+    gatewayUrl: "https://servitus.onrender.com"
   cors:
     allowed-origins:
       - "http://localhost:4200"
