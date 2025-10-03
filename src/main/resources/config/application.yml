@@ -7,7 +7,7 @@ spring:
         webflux:
           routes:
             - id: servitus
-              uri:
+              uri: ${servitus.uri}
               predicates:
                 - Path=/servitus/**
               filters:
@@ -45,4 +45,11 @@ app:
   cors:
     allowed-origins:
       - "https://www.kumpo.gw"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 

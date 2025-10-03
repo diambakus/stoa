@@ -1,15 +1,5 @@
-spring:
-  cloud:
-    gateway:
-      server:
-        webflux:
-          routes:
-            - id: servitus
-              uri: https://servitus.onrender.com
-              predicates:
-                - Path=/servitus/**
-              filters:
-                - RewritePath=/servitus/(?<segment>.*), /${segment}
+servitus:
+  uri: https://servitus.onrender.com
 
 springdoc:
   swagger-ui:
