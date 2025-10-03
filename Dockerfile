@@ -23,4 +23,4 @@ USER orakuma:orakuma
 # Copy built jar from builder stage
 COPY --from=builder /app/target/*.jar /opt/app/stoa.jar
 
-CMD ["java", "-showversion", "-jar", "/opt/app/servitus.jar"]
+CMD ["java", "-showversion", "-jar", "/opt/app/stoa.jar"]
