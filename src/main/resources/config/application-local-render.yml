@@ -10,12 +10,6 @@ spring:
                 - Path=/servitus/**
               filters:
                 - RewritePath=/servitus/(?<segment>.*), /${segment}
-            - id: rogator
-              uri: http://localhost:8091
-              predicates:
-                - Path=/rogator/**
-              filters:
-                - RewritePath=/rogator/(?<segment>.*), /${segment}
 
 springdoc:
   swagger-ui:

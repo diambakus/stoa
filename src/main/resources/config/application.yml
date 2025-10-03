@@ -12,12 +12,12 @@ spring:
                 - Path=/servitus/**
               filters:
                 - RewritePath=/servitus/(?<segment>.*), /${segment}
-            - id: rogator
-              uri:
-              predicates:
-                - Path=/rogator/**
-              filters:
-                - RewritePath=/rogator/(?<segment>.*), /${segment}
+            #- id: rogator
+            #  uri:
+            #  predicates:
+            #    - Path=/rogator/**
+            #  filters:
+            #    - RewritePath=/rogator/(?<segment>.*), /${segment}
   #security:
   #  oauth2:
   #    resourceserver:
