@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: stoa
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: servitus
+              uri:
+              predicates:
+                - Path=/servitus/**
+              filters:
+                - RewritePath=/servitus/(?<segment>.*), /${segment}
+            - id: rogator
+              uri:
+              predicates:
+                - Path=/rogator/**
+              filters:
+                - RewritePath=/rogator/(?<segment>.*), /${segment}
+  #security:
+  #  oauth2:
+  #    resourceserver:
+  #      jwt:
+  #        issuer-uri: http://localhost:8080/realms/kumpo
+  #        jwk-set-uri: http://localhost:8080/realms/kumpo/protocol/openid-connect/certs
+  #    client:
+  #      registration:
+  #        keycloak:
+  #          client-id: kumpo-client
+  #          client-secret: password_here
+  #          authorization-grant-type: authorization_code
+  #          scope: openid, email, profile,
+  #          redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+  #          provider: keycloak
+  #      provider:
+  #        keycloak:
+  #          issuer-uri: http://localhost:8080/realms/kumpo
+  profiles:
+    active: local-render
+
+app:
+  openapi:
+    gatewayUrl:
+  cors:
+    allowed-origins:
+      - "https://www.kumpo.gw"
+
