@@ -1,6 +1,3 @@
-server:
-  port: ${PORT:8080}
-
 spring:
   application:
     name: stoa
@@ -15,12 +12,12 @@ spring:
                 - Path=/servitus/**
               filters:
                 - RewritePath=/servitus/(?<segment>.*), /${segment}
-            #- id: rogator
-            #  uri:
-            #  predicates:
-            #    - Path=/rogator/**
-            #  filters:
-            #    - RewritePath=/rogator/(?<segment>.*), /${segment}
+            - id: rogator
+              uri: ${rogator.uri}
+              predicates:
+                - Path=/rogator/**
+              filters:
+                - RewritePath=/rogator/(?<segment>.*), /${segment}
   #security:
   #  oauth2:
   #    resourceserver:
@@ -40,7 +37,7 @@ spring:
   #        keycloak:
   #          issuer-uri: http://localhost:8080/realms/kumpo
   profiles:
-    active: local-render
+    active: local,noauth
 
 app:
   openapi:
