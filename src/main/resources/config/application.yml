@@ -12,44 +12,86 @@ spring:
                 - Path=/servitus/**
               filters:
                 - RewritePath=/servitus/(?<segment>.*), /${segment}
+                - TokenRelay=
             - id: rogator
               uri: ${rogator.uri}
               predicates:
                 - Path=/rogator/**
               filters:
                 - RewritePath=/rogator/(?<segment>.*), /${segment}
-  #security:
-  #  oauth2:
-  #    resourceserver:
-  #      jwt:
-  #        issuer-uri: http://localhost:8080/realms/kumpo
-  #        jwk-set-uri: http://localhost:8080/realms/kumpo/protocol/openid-connect/certs
-  #    client:
-  #      registration:
-  #        keycloak:
-  #          client-id: kumpo-client
-  #          client-secret: password_here
-  #          authorization-grant-type: authorization_code
-  #          scope: openid, email, profile,
-  #          redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-  #          provider: keycloak
-  #      provider:
-  #        keycloak:
-  #          issuer-uri: http://localhost:8080/realms/kumpo
+                - TokenRelay=
+          globalcors:
+            corsConfigurations:
+              '[/**]':
+                allowedOrigins:
+                  - http://localhost:4200
+                  - http://localhost:4201
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+                allowedHeaders:
+                  - Authorization
+                  - Content-Type
+                exposedHeaders:
+                  - Authorization
+                maxAge: 3600
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak.orakuma.de/realms/kumpo
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        default_schema: stoa
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: database-url
+    username: database-username
+    password: database-password
   profiles:
-    active: local,noauth
+    active: hetzner-test
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    default-schema: stoa
 
 app:
   openapi:
     gatewayUrl:
   cors:
-    allowed-origins:
-      - "https://www.kumpo.gw"
+    allowedOrigins:
+      - http://localhost:4201
+      - http://localhost:4200
+    allowedMethods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
+    allowedHeaders:
+      - Authorization
+      - Content-Type
+    maxAge: 3600
+    allow-credentials: false
+
+keycloak:
+  auth-server-url: https://my-keycloak/realms/my-realm
+  realm: my-realm
+  admin:
+    client-id: admin-provisioner
+    client-secret: my-client-secret
+  client-id: my-client-id
+  employee-role: EMPLOYEE
+
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-
-

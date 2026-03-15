@@ -22,11 +22,18 @@ public class SecurityConfig {
                         .pathMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyExchange().authenticated()
                 )
-                .oauth2Login(withDefaults())
-                .oauth2Client(withDefaults())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()))
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .cors(withDefaults())
                 .build();
-    }
 
+        /*
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        converter.setJwtGrantedAuthoritiesConverter(new KeycloakRoleConverter());
+
+        http.oauth2ResourceServer(oauth ->
+        oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(converter))
+        );
+        */
+    }
 }
