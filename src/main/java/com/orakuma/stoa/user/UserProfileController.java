@@ -43,6 +43,4 @@ public class UserProfileController {
         Optional<UserProfileDto> persistedUserProfileDto = userProfileService.updateUserUnits(userId, unitsIds);
         return new ResponseEntity<>(persistedUserProfileDto, HttpStatus.OK);
     }
-
-
 }

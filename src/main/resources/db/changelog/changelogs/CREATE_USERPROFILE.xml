@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.31.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="adruida">
+        <createTable tableName="users" schemaName="${schemaName}">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users"/>
+            </column>
+            <column name="display_name" type="VARCHAR(255)"/>
+            <column name="units_id" type="bigint[]"/>
+            <column name="last_login" type="DATETIME"/>
+            <column name="created" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="adruida">
+        <preConditions>
+            <tableExists tableName="users" />
+        </preConditions>
+        <addColumn tableName="users">
+            <column name="role" type="VARCHAR(255)" />
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

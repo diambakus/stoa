@@ -1,0 +1,79 @@
+servitus:
+  uri: http://servitus:8080
+rogator:
+  uri: http://rogator:8080
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    urls:
+      - name: servitus
+        url: /servitus/v3/api-docs
+      - name: rogator
+        url: /rogator/v3/api-docs
+
+logging.level:
+  org.springframework.cloud.gateway: DEBUG
+  org.springframework.security: DEBUG
+  org.springframework.web.reactive.function.client: TRACE
+  org.springframework.security.oauth2.server.resource: TRACE
+
+app:
+  openapi:
+    gatewayUrl: "https://91.98.90.152:8080"
+  cors:
+    allowedOrigins:
+      - http://localhost:4201
+      - http://localhost:4200
+    allowedMethods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
+    allowedHeaders:
+      - Authorization
+      - Content-Type
+    maxAge: 3600
+    allow-credentials: false
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          globalcors:
+            corsConfigurations:
+              '[/**]':
+                allowedOrigins:
+                  - http://localhost:4200
+                  - http://localhost:4201
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+                allowedHeaders:
+                  - Authorization
+                  - Content-Type
+                maxAge: 3600
+  application:
+    name: STOA-HETZNER-TEST
+
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri:
+
+keycloak:
+  auth-server-url:
+  realm: kumpo
+  admin:
+    client-id:
+    client-secret:
+  client-id: niasse
+  employee-role: EMPLOYEE

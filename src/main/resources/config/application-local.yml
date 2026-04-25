@@ -1,0 +1,85 @@
+server:
+  port: 8094
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: servitus
+              uri: http://localhost:8090
+              predicates:
+                - Path=/servitus/**
+              filters:
+                - RewritePath=/servitus/(?<segment>.*), /${segment}
+                - TokenRelay= #this passes the jwt to the microservices
+            - id: rogator
+              uri: http://localhost:8091
+              predicates:
+                - Path=/rogator/**
+              filters:
+                - RewritePath=/rogator/(?<segment>.*), /${segment}
+                - TokenRelay=
+          globalcors:
+            corsConfigurations:
+              '[/**]':
+                allowedOrigins:
+                  - http://localhost:4200
+                  - http://localhost:4201
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri:
+  jpa:
+    show-sql: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/stoadb?currentSchema=stoa
+    username:
+    password:
+
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    urls:
+      - name: servitus
+        url: /servitus/v3/api-docs
+      - name: rogator
+        url: /rogator/v3/api-docs
+
+logging.level:
+  org.springframework.cloud.gateway: DEBUG
+  org.springframework.security: DEBUG
+  org.springframework.web.reactive.function.client: TRACE
+
+app:
+  openapi:
+    gatewayUrl: "http://localhost:8094"
+  cors:
+    allowedOrigins:
+      - http://localhost:4201
+      - http://localhost:4200
+    allowedMethods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - OPTIONS
+      - PATCH
+    allowedHeaders:
+      - Authorization
+      - Content-Type
+    maxAge: 3600
+
+keycloak:
+  auth-server-url: http://keycloak.orakuma.de
+  realm: kumpo
+  admin:
+    client-id: client-id
+    client-secret: password
+  client-id: niasse
+  employee-role: EMPLOYEE
