@@ -5,6 +5,6 @@
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <property name="schemaName" value="stoa"/>
-
+    <include file="changelogs/CREATE_SCHEMA.xml" relativeToChangelogFile="true" />
     <include file="changelogs/CREATE_USERPROFILE.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

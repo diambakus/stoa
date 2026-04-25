@@ -82,6 +82,7 @@ app:
       - PUT
       - DELETE
       - OPTIONS
+      - PATCH
     allowedHeaders:
       - Authorization
       - Content-Type
