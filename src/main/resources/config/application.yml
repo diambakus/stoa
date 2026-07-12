@@ -43,7 +43,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: issuer
+          issuer-uri:  issuer
   jpa:
     show-sql: false
     properties:
@@ -90,7 +90,7 @@ app:
     allow-credentials: false
 
 keycloak:
-  auth-server-url: https://my-keycloak/realms/my-realm
+  auth-server-url: https://my-keycloak
   realm: my-realm
   admin:
     client-id: admin-provisioner

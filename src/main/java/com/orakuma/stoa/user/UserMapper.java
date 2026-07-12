@@ -1,5 +1,6 @@
 package com.orakuma.stoa.user;
 
+import org.apache.commons.lang3.StringUtils;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -29,6 +30,6 @@ public interface UserMapper {
     UserProfileDto toUserProfileDto(UserCreationDto userCreationDto);
 
     default String toString(LocalDateTime localDateTime) {
-        return localDateTime.toString();
+        return localDateTime != null ? localDateTime.toString() : StringUtils.EMPTY;
     }
 }
