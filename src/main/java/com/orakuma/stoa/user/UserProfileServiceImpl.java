@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -19,6 +20,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     private final UserProfileRepository userProfileRepository;
     private final UserMapper userMapper;
     private final RepositoriesHandler repositoriesHandler;
+    private final KeycloakUserProvisioningService keycloakUserProvisioningService;
 
     @Transactional
     @Override
@@ -67,8 +69,11 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public Optional<UserProfileDto> updateUserUnits(String userId, Set<Long> unitsIds) {
         UserProfile userProfile = repositoriesHandler.getUserProfileById(userId);
-        userProfile.setUnitsId(unitsIds);
+        userProfile.setUnitsId(unitsIds == null ? new HashSet<>() : new HashSet<>(unitsIds));
         UserProfile persistedUser = userProfileRepository.save(userProfile);
+        // The DB stays the source of truth; Keycloak holds the copy that reaches rogator in the token.
+        // Called last inside the transaction: if Keycloak fails, the DB change is rolled back.
+        keycloakUserProvisioningService.updateUserUnits(userId, persistedUser.getUnitsId());
         return Optional.of(userMapper.toUserProfileDto(persistedUser));
     }
 }

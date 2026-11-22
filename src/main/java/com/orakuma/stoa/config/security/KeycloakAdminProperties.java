@@ -17,6 +17,7 @@ public class KeycloakAdminProperties {
     private Admin admin;
     private String clientId;
     private String employeeRole;
+    private String unitsAttribute = "units";
 
     @Getter
     @Setter

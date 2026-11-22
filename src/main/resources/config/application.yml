@@ -38,12 +38,6 @@ spring:
                 exposedHeaders:
                   - Authorization
                 maxAge: 3600
-
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri:  issuer
   jpa:
     show-sql: false
     properties:
@@ -88,6 +82,9 @@ app:
       - Content-Type
     maxAge: 3600
     allow-credentials: false
+  security:
+    oauth2:
+      issuers: []
 
 keycloak:
   auth-server-url: https://my-keycloak
@@ -97,7 +94,7 @@ keycloak:
     client-secret: my-client-secret
   client-id: my-client-id
   employee-role: EMPLOYEE
-
+  units-attribute: units
 
 management:
   endpoints:

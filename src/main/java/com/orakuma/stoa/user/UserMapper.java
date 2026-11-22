@@ -15,6 +15,7 @@ public interface UserMapper {
     UserRepresentation toUserRepresentation(UserInKeycloakDto userInKeycloakDto);
 
     @Mapping(target = "rawPassword", ignore = true)
+    @Mapping(target = "unitsId", ignore = true)
     UserInKeycloakDto toUserInKeycloakDto(UserRepresentation userRepresentation);
 
     @Mapping(target = "lastLogin", ignore = true)

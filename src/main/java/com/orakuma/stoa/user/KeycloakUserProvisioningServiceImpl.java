@@ -8,13 +8,18 @@ import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -34,6 +39,8 @@ public class KeycloakUserProvisioningServiceImpl implements KeycloakUserProvisio
         userRepresentation.setEnabled(true);
         userRepresentation.setEmailVerified(false);
 
+        userRepresentation.setAttributes(new HashMap<>(Map.of(
+                adminProperties.getUnitsAttribute(), toAttributeValues(userInKeycloakDto.unitsId()))));
         var response = usersResource.create(userRepresentation);
         String userId = extractId(response, "Failed to create user: HTTP");
 
@@ -84,8 +91,24 @@ public class KeycloakUserProvisioningServiceImpl implements KeycloakUserProvisio
     }
 
     @Override
-    public String updateUserWithBelongingUnitAndRole() {
-        return "";
+    public void updateUserUnits(String userId, Set<Long> unitsId) {
+        UserResource user = keycloak.realm(adminProperties.getRealm()).users().get(userId);
+        // Start from the current representation so the user's other attributes are kept.
+        UserRepresentation userRepresentation = user.toRepresentation();
+        Map<String, List<String>> attributes = userRepresentation.getAttributes() == null
+                ? new HashMap<>()
+                : new HashMap<>(userRepresentation.getAttributes());
+        attributes.put(adminProperties.getUnitsAttribute(), toAttributeValues(unitsId));
+        userRepresentation.setAttributes(attributes);
+        user.update(userRepresentation);
+        log.info("Units of user {} synced to Keycloak: {}", userId, unitsId);
+    }
+
+    /** Sorted, null-free unit ids as strings (Keycloak attributes are string lists). */
+    private static List<String> toAttributeValues(Set<Long> unitsId) {
+        return unitsId == null
+                ? List.of()
+                : unitsId.stream().filter(Objects::nonNull).sorted().map(String::valueOf).toList();
     }
 
     private String extractId(Response response, String errorMessage) {
